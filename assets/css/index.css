@@ -22,8 +22,10 @@ input#message:focus {
 }
 #message-container {
     padding:10px;
+    max-height: 70%;
+    overflow-y: scroll;
 }
-#message-container b {
+#message-container .msg-username {
     color:#D43F3F;
 }
 .self {
@@ -101,4 +103,9 @@ input[type=text]:focus:not([readonly]) {
 
 .hidden {
     display: none;
+}
+
+.user-joined {
+    color:slategrey;
+    font-size:12px;
 }

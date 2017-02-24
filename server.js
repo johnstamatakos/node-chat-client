@@ -27,6 +27,7 @@ io.on('connection', function(socket) {
             users.push(user);
             socket.emit('userSet', {id: user.id, username: user.name});
             io.sockets.emit('updateUserList', users);
+            io.sockets.emit('alertNewUser', user.name);
         }
     });
 
@@ -45,6 +46,8 @@ io.on('connection', function(socket) {
 
     socket.on('exit', function(data) {
         socket.emit('updateUserList', users);
+        console.log("backend exit");
+        io.sockets.emit('alertUserLeft', data.name);
 
         var i = users.map(function(obj, index) {
             if (obj.id === data.id) {

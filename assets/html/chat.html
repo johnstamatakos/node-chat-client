@@ -7,7 +7,7 @@
     <meta name="description" content="John Stamatakos is a Software Engineer in Austin, TX">
     <meta name="keywords" content="Software,Engineer,Austin,Javascript,John,Stamatakos">
     <meta name="author" content="John Stamatakos">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta http-equiv="Cache-control" content="public">
     <meta property="og:title" content="Chat" />
     <meta property="og:type" content="website" />
@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="/index.css">
 </head>
 
-    <body>
+    <body id="body">
         <div id="error-container"></div>
         <div id="slide-panel">
-            <button id="minimize-button" type="button" class="waves-effect waves-light btn" onclick="slide('users')"><i class="fa fa-users left" aria-hidden="true"></i><span class="left">&nbsp;USERS</span></button>
-            <button id="settings-button" type="button" class="waves-effect waves-light btn" onclick="slide('settings')"><i class="fa fa-cog left" aria-hidden="true"></i><span class="left">&nbsp;SETTINGS</span></button>
+            <button id="minimize-button" type="button" class="waves-effect waves-light btn" onclick="slidePanel.slide('users')"><i class="fa fa-users left" aria-hidden="true"></i><span class="left">&nbsp;USERS</span></button>
+            <button id="settings-button" type="button" class="waves-effect waves-light btn" onclick="slidePanel.slide('settings')"><i class="fa fa-cog left" aria-hidden="true"></i><span class="left">&nbsp;SETTINGS</span></button>
             <div id="users" class="hidden">
                 <p class="title">Active Users</p>
                 <ul id="active-users-list"></ul>
@@ -31,7 +31,7 @@
             <div id="settings" class="hidden">
                 <p class="title">Settings</p>
                 <p>Current Name: <span id="name"></span></p>
-                <input id="name-change" type="text" />
+                <input id="name-change" type="text" placeholder="Change name..."/>
                 <button id="nameChangeButton" type="button" class="right waves-effect waves-light btn" onclick="changeName()">Send</button>
                 <button id="close-button" type="button" class="waves-effect waves-light btn" onclick="exit()">Exit</button>
             </div>

@@ -9,45 +9,56 @@ window.onload = function() {
 };
 window.onbeforeunload = exit;
 
-//User exists event
-socket.on('userExists', function(data) {
-    //turn into alert bar
-    document.getElementById('error-container').innerHTML = data;
-    setUserName();
-});
+/**** Utility Functions *****/
 
-//User set event
-socket.on('userSet', function(data) {
-    user = {
-        id  : data.id,
-        name: data.username
-    };
-    updateName('');
-    addKeypressEvents();
-});
+//Slide panel object for menu items
+var slidePanel = {
+    open: function(panel, style) {
+        var pos = parseInt(style.right.replace('px', ''));
+        var id = setInterval(frame, 1);
+        function frame() {
+            if (pos === 0) {
+                clearInterval(id);
+            } else {
+                pos++;
+                panel.style.right = pos + 'px';
+            }
+        }
+    },
+    close: function(panel, style, width, callback) {
+        var pos = 0;
+        var id = setInterval(frame, 1);
+        function frame() {
+            if (pos === width) {
+                clearInterval(id);
+                callback();
+            } else {
+                pos--;
+                panel.style.right = pos + 'px';
+            }
+        }
+    },
+    slide: function(panelContent) {
+        var panel = document.getElementById('slide-panel');
+        var width = panel.offsetWidth * -1;
+        var style = window.getComputedStyle(panel, null);
 
-//New message event
-socket.on('newmsg', function(data) {
-    if (user) {
-        var className = (data.user.id === user.id) ? 'self' : '';
-        document.getElementById('message-container').innerHTML += '<div><b class="' + className + '">' + data.user.name + '</b>: ' + data.message + '</div>';
+        if (panelContent === slideState && style.right === '0px') {
+            slidePanel.close(panel, style, width, function() {});
+        } else if (style.right !== '0px') {
+            setPanelContent(panelContent);
+            slidePanel.open(panel, style);
+        } else {
+            slidePanel.close(panel, style, width, function() {
+                setTimeout(function() {
+                    setPanelContent(panelContent);
+                    slidePanel.open(panel, style);
+                }, 200);
+            });
+        }
+        slideState = panelContent;
     }
-});
-
-//update user list
-socket.on('updateUserList', function(data) {
-    var list = document.getElementById('active-users-list');
-    list.innerHTML = '';
-    data.forEach(function(element) {
-        var el = document.createElement('li');
-        el.innerHTML = element.name;
-        list.appendChild(el);
-    });
-});
-
-socket.on('test', function(data) {
-    console.log(data);
-});
+};
 
 function sendMessage() {
     var input = document.getElementById('message');
@@ -79,8 +90,8 @@ function setUserName() {
 }
 
 function exit() {
-    document.body.innerHTML = 'You have left.';
     socket.emit('exit', user);
+    document.getElementById('body').innerHTML = 'You have left.';
 }
 
 function changeName() {
@@ -128,53 +139,50 @@ function setPanelContent(content) {
     }
 }
 
-var slidePanel = {
-    open: function(panel, style) {
-        var pos = parseInt(style.right.replace('px', ''));
-        var id = setInterval(frame, 1);
-        function frame() {
-            if (pos === 0) {
-                clearInterval(id);
-            } else {
-                pos++;
-                panel.style.right = pos + 'px';
-            }
-        }
-    },
-    close: function(panel, style, width, callback) {
-        var pos = 0;
-        var id = setInterval(frame, 1);
-        function frame() {
-            if (pos === width) {
-                clearInterval(id);
-                callback();
-            } else {
-                pos--;
-                panel.style.right = pos + 'px';
-            }
-        }
-    }
-};
+/**** Socket Events *****/
 
-function slide(panelContent) {
-    console.log('slideState', slideState);
-    console.log('panelContent', panelContent);
-    var panel = document.getElementById('slide-panel');
-    var width = panel.offsetWidth * -1;
-    var style = window.getComputedStyle(panel, null);
+//User exists event
+socket.on('userExists', function(data) {
+    //turn into alert bar
+    document.getElementById('error-container').innerHTML = data;
+    setUserName();
+});
 
-    if (panelContent === slideState && style.right === '0px') {
-        slidePanel.close(panel, style, width, function() {});
-    } else if (style.right !== '0px') {
-        setPanelContent(panelContent);
-        slidePanel.open(panel, style);
-    } else {
-        slidePanel.close(panel, style, width, function() {
-            setTimeout(function() {
-                setPanelContent(panelContent);
-                slidePanel.open(panel, style);
-            }, 200);
-        });
+//User set event
+socket.on('userSet', function(data) {
+    user = {
+        id  : data.id,
+        name: data.username
+    };
+    updateName('');
+    addKeypressEvents();
+});
+
+//New message event
+socket.on('newmsg', function(data) {
+    if (user) {
+        var className = (data.user.id === user.id) ? 'self' : '';
+        var textContainer = document.getElementById('message-container');
+        textContainer.innerHTML += '<div><b class="msg-username ' + className + '">' + data.user.name + '</b>: ' + data.message + '</div>';
+        textContainer.scrollTop = textContainer.scrollHeight;
     }
-    slideState = panelContent;
-}
+});
+
+//update user list
+socket.on('updateUserList', function(data) {
+    var list = document.getElementById('active-users-list');
+    list.innerHTML = '';
+    data.forEach(function(element) {
+        var el = document.createElement('li');
+        el.innerHTML = element.name;
+        list.appendChild(el);
+    });
+});
+
+socket.on('alertNewUser', function(data) {
+    document.getElementById('message-container').innerHTML += '<div class="user-joined"><b>' + data + '</b> has joined the room</div>';
+});
+
+socket.on('alertUserLeft', function(data) {
+    document.getElementById('message-container').innerHTML += '<div class="user-joined"><b>' + data + '</b> has left the room</div>';
+});
