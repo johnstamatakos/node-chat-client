@@ -1,0 +1,2 @@
+- Change error to alert bar
+- Clean up code

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head><title>Hello world</title></head>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/index.css">
+
+    <body>
+        <div id="error-container"></div>
+        <div id="slide-panel">
+            <button id="minimize-button" type="button" class="waves-effect waves-light btn" onclick="slide('users')"><i class="fa fa-users left" aria-hidden="true"></i><span class="left">&nbsp;USERS</span></button>
+            <button id="settings-button" type="button" class="waves-effect waves-light btn" onclick="slide('settings')"><i class="fa fa-cog left" aria-hidden="true"></i><span class="left">&nbsp;SETTINGS</span></button>
+            <div id="users" class="hidden">
+                <p class="title">Active Users</p>
+                <ul id="active-users-list"></ul>
+            </div>
+            <div id="settings" class="hidden">
+                <p class="title">Settings</p>
+                <p>Current Name: <span id="name"></span></p>
+                <input id="name-change" type="text" />
+                <button id="nameChangeButton" type="button" class="right waves-effect waves-light btn" onclick="changeName()">Send</button>
+                <button id="close-button" type="button" class="waves-effect waves-light btn" onclick="exit()">Exit</button>
+            </div>
+        </div>
+        <div id="message-container">
+        </div>
+        <div id="input-container">
+            <textarea id="message" rows="5" cols="100"></textarea>
+            <button id="messageButton" type="button" name="button" class="right waves-effect waves-light btn" onclick="sendMessage()">Send</button>
+        </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/index.js"></script>
+    </body>
+</html>

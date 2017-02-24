@@ -1,0 +1,104 @@
+html, body {
+    height:100%;
+    margin:0;
+    font-family:'Roboto Condensed';
+    background-color:whitesmoke;
+}
+#input-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 35px;
+    background-color:#404040;
+    max-height: 30%;
+}
+#message {
+    color:#404040;
+    height:25%;
+    background-color:whitesmoke;
+}
+input#message:focus {
+    outline-color:#6A9A1F;
+}
+#message-container {
+    padding:10px;
+}
+#message-container b {
+    color:#D43F3F;
+}
+.self {
+    color:#00ACE9!important;
+}
+#messageButton {
+    background-color:#6A9A1F;
+    color:#FFF;
+}
+#slide-panel {
+    height: 70%;
+    width: 20%;
+    padding-left:25px;
+    min-width: 100px;
+    position: fixed;
+    top: 0;
+    right: -20%;
+    background-color: #404040;
+    color:#FFF;
+    border-bottom: 1px solid whitesmoke;
+}
+.title {
+    text-align: center;
+    font-size:1.5em;
+    color:#6A9A1F;
+}
+#close-button {
+    background-color: #D43F3F;
+    color: #FFF;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+
+#minimize-button, #settings-button {
+    position:absolute;
+    background-color: #6A9A1F;
+    left:-80px;
+    width: 80px;
+    padding: 2px;
+    border-radius: 0!important;
+    box-shadow: none!important;
+    height:35px;
+    font-size:10px;
+}
+
+#nameChangeButton {
+    background-color: #6A9A1F;
+    padding: 0 0.5rem;
+    font-size: 10px;
+}
+
+input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #6A9A1F;
+    box-shadow: 0 1px 0 0 #6A9A1F;
+}
+
+#minimize-button { 
+    bottom:4px;
+}
+
+#settings-button { 
+    bottom:45px;
+}
+
+#minimize-button i, #settings-button i {
+    padding:0 3px;
+    margin:0;
+}
+
+#settings {
+    padding:10px;
+}
+
+.hidden {
+    display: none;
+}
